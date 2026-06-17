@@ -974,7 +974,7 @@ TILT=NONE
         function renderReport(index) {
                     badge.className = "text-xs bg-slate-100 text-slate-800 px-2.5 py-1 rounded font-bold uppercase inline-block my-1";
                 }
-            }
+
 
             // 🌟 更新：CCT, CRI, R9, R15 與 Glare Risk 物理渲染與進度條聯動 (100% 完美呈現)
             renderSpectralAndVisualGlare(file);
