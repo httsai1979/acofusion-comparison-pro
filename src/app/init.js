@@ -8,6 +8,7 @@ import { buildAuditWarnings } from "../photometry/auditRules.js";
 import { locales as DICT } from "../i18n/index.js";
 import { BRAND } from "../config/brand.js";
 import { renderComparison } from "../ui/renderComparison.js";
+import { renderReport as renderReportImpl } from "../ui/renderSingleReport.js";
 import { drawPolarToCanvas, renderPolarOverlay as renderPolarOverlayChart } from "../charts/polarCanvas.js";
 import "../styles/main.css";
 
@@ -971,55 +972,6 @@ TILT=NONE
 
         // --- 單個燈具規格書卡片渲染 ---
         function renderReport(index) {
-            const file = loadedIesFiles[index];
-            if (!file) return;
-
-            const lampName = file.metadata['TEST'] || file.fileName.replace(/\.[^/.]+$/, "");
-            
-            // 安全防守與 DOM 渲染保護
-            const reportTitleEl = document.getElementById('report-title');
-            if (reportTitleEl) reportTitleEl.innerText = lampName;
-            
-            const reportIdEl = document.getElementById('report-id');
-            if (reportIdEl) {
-                const fmt = file.fileFormat || 'IES';
-                const sourceId = file.metadata['TEST'] || file.metadata['LUMCAT'] || file.metadata['SOURCE_FILE'] || file.fileName;
-                reportIdEl.innerText = `${fmt}: ${sourceId}`;
-            }
-            
-            const reportDateEl = document.getElementById('report-date');
-            if (reportDateEl) reportDateEl.innerText = `${tx("testDate")}: ${file.metadata['TESTDATE'] || tx("unknown")}`;
-
-            const watts = file.inputWatts > 0 ? file.inputWatts : 50;
-            const efficiency = file.totalFlux / watts;
-            
-            const specPowerEl = document.getElementById('spec-power');
-            if (specPowerEl) specPowerEl.innerHTML = `${watts.toFixed(1)} <span class="text-[10px] text-slate-500">W</span>`;
-            
-            const specEfficacyEl = document.getElementById('spec-efficacy');
-            if (specEfficacyEl) specEfficacyEl.innerHTML = `${efficiency.toFixed(1)} <span class="text-[10px] text-slate-500">lm/W</span>`;
-            
-            const specLumensEl = document.getElementById('spec-lumens');
-            if (specLumensEl) specLumensEl.innerHTML = `${Math.round(file.totalFlux).toLocaleString()} <span class="text-[10px] text-slate-500">lm</span>`;
-            
-            const specPeakCdEl = document.getElementById('spec-peak-cd');
-            if (specPeakCdEl) specPeakCdEl.innerHTML = `${Math.round(file.maxIntensity).toLocaleString()} <span class="text-[10px] text-slate-500">cd</span>`;
-            
-            const specBaC0El = document.getElementById('spec-ba-c0');
-            if (specBaC0El) specBaC0El.innerHTML = `${Math.round(file.fwhmC0.angle)}°`;
-            
-            const specBaC90El = document.getElementById('spec-ba-c90');
-            if (specBaC90El) specBaC90El.innerHTML = `${Math.round(file.fwhmC90.angle)}°`;
-
-            // 光型標記
-            const badge = document.getElementById('report-type-badge');
-            if (badge) {
-                badge.innerText = file.classifiedType;
-                if (file.classifiedType === 'Wallwash') {
-                    badge.className = "text-xs bg-blue-100 text-blue-800 px-2.5 py-1 rounded font-bold uppercase inline-block my-1";
-                } else if (file.classifiedType === 'Oval') {
-                    badge.className = "text-xs bg-purple-100 text-purple-800 px-2.5 py-1 rounded font-bold uppercase inline-block my-1";
-                } else {
                     badge.className = "text-xs bg-slate-100 text-slate-800 px-2.5 py-1 rounded font-bold uppercase inline-block my-1";
                 }
             }
