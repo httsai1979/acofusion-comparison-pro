@@ -8,6 +8,7 @@ import { buildAuditWarnings } from "../photometry/auditRules.js";
 import { locales as DICT } from "../i18n/index.js";
 import { BRAND } from "../config/brand.js";
 import { renderComparison } from "../ui/renderComparison.js";
+import { drawPolarToCanvas, renderPolarOverlay as renderPolarOverlayChart } from "../charts/polarCanvas.js";
 import "../styles/main.css";
 
 function applyBrand() {
@@ -789,6 +790,8 @@ TILT=NONE
 
                 // Bidirectional Hover Highlight Link
                 item.addEventListener('mouseenter', () => {
+                    window.hoveredFileId = file.id;
+                    renderPolarOverlay();
                     const row = document.querySelector(`#comparison-matrix-body tr[data-file-id="${file.id}"]`);
                     if (row) {
                         row.classList.add('bg-slate-100');
@@ -1273,130 +1276,11 @@ TILT=NONE
             drawPolarToCanvas(canvas, file);
         }
 
-        // 🌟 重新改寫底層 Canvas 配光繪製，支持後台無 DOM 離線與白底繪製
-        function drawPolarToCanvas(canvas, file, forceWidth, forceHeight) {
-            const dpr = window.devicePixelRatio || 1;
-            
-            // 安全分度高度計算：如果未傳入強制尺寸，則讀取父容器。否則採用後台離線預設值
-            let w = forceWidth;
-            let h = forceHeight;
-
-            if (!w || !h) {
-                const parent = canvas.parentNode;
-                if (!parent) {
-                    w = 400;
-                    h = 300;
-                } else {
-                    const rect = parent.getBoundingClientRect();
-                    w = rect.width;
-                    h = rect.width * 0.75;
-                    
-                    // 防禦安全機制，防止零或負寬度渲染
-                    if (w <= 0) {
-                        if (!canvas.dataset.retryActive) {
-                            canvas.dataset.retryActive = "true";
-                            setTimeout(() => {
-                                canvas.dataset.retryActive = "";
-                                drawPolarToCanvas(canvas, file);
-                            }, 100);
-                        }
-                        return;
-                    }
-                }
-            }
-
-            canvas.width = w * dpr;
-            canvas.height = h * dpr;
-            
-            const ctx = canvas.getContext('2d');
-            if (!ctx) return;
-            ctx.scale(dpr, dpr);
-            
-            // 🌟 在背景繪製前填充「純白色底圖 (Solid White Background)」
-            // 這樣可以完美防止匯出後的 PNG 圖檔在看圖軟體預設為深色底時「因全透明而呈現全黑看不見」的 Bug！
-            ctx.fillStyle = '#ffffff';
-            ctx.fillRect(0, 0, w, h);
-
-            const cx = w / 2;
-            const cy = 35;
-            const maxRadius = Math.max(10, Math.min(w / 2 - 35, h - 55));
-
-            function getNiceScale(maxVal) {
-                const candidates = [10, 50, 100, 200, 500, 1000, 2000, 3000, 5000, 10000, 15000, 20000, 30000, 50000, 100000];
-                for (let c of candidates) {
-                    if (maxVal <= c) return c;
-                }
-                return Math.ceil(maxVal / 10000) * 10000;
-            }
-            const rMax = getNiceScale(file.maxIntensity);
-
-            // 1. 繪製極座標網格
-            ctx.strokeStyle = '#e2e8f0';
-            ctx.lineWidth = 0.8;
-            ctx.fillStyle = '#64748b';
-            ctx.font = '8px sans-serif';
-            ctx.textAlign = 'center';
-            ctx.textBaseline = 'middle';
-
-            // 同心半圓
-            const rings = 5;
-            for (let r = 1; r <= rings; r++) {
-                const radius = (maxRadius / rings) * r;
-                ctx.beginPath();
-                ctx.arc(cx, cy, radius, 0, Math.PI, false);
-                ctx.stroke();
-
-                // 🌟 優化關鍵：完全同步 image_f7f2cb.png 樣式
-                // 將數值標示（如 1000, 2000, 3000）垂直繪製在 0 度軸線上
-                const ringVal = Math.round((rMax / rings) * r);
-                ctx.fillStyle = '#475569';
-                ctx.font = 'bold 8px sans-serif';
-                ctx.fillText(ringVal.toString(), cx, cy + radius);
-            }
-
-            // 放射線
-            const angles = [-90, -60, -30, 0, 30, 60, 90];
-            angles.forEach(ang => {
-                const rad = (ang + 90) * Math.PI / 180;
-                const x = cx + maxRadius * Math.cos(rad);
-                const y = cy + maxRadius * Math.sin(rad);
-
-                ctx.beginPath();
-                ctx.moveTo(cx, cy);
-                ctx.lineTo(x, y);
-                ctx.stroke();
-
-                // 標記角度文字 (左右對調符合投射習慣)
-                const labelX = cx + (maxRadius + 14) * Math.cos(rad);
-                const labelY = cy + (maxRadius + 14) * Math.sin(rad);
-                ctx.fillStyle = '#94a3b8';
-                ctx.font = '8px sans-serif';
-                ctx.fillText(`${ang}°`, labelX, labelY);
-            });
-
-            // 2. 獲取並繪製真實曲線
-            function getHIndex(target) {
-                let closestIdx = 0;
-                let minDiff = Infinity;
-                for (let i = 0; i < file.horizontalAngles.length; i++) {
-                    let diff = Math.min(Math.abs(file.horizontalAngles[i] - target), Math.abs(360 - Math.abs(file.horizontalAngles[i] - target)));
-                    if (diff < minDiff) {
-                        minDiff = diff;
-                        closestIdx = i;
-                    }
-                }
-                return closestIdx;
-            }
-
-            const c0Idx = getHIndex(0);
-            const c90Idx = getHIndex(90);
-            const c180Idx = getHIndex(180);
-            const c270Idx = getHIndex(270);
-
-            // 繪製 C0-180 (深藍色)
-            drawPhotometricPlane(ctx, cx, cy, maxRadius, rMax, file, c0Idx, c180Idx, 'rgba(13, 110, 253, 0.95)');
-            // 繪製 C90-270 (橘色)
-            drawPhotometricPlane(ctx, cx, cy, maxRadius, rMax, file, c90Idx, c270Idx, 'rgba(249, 115, 22, 0.95)');
+        // --- 高清單一極座標圖渲染 (100% 同步自 image_f7f2cb.png 奢華格式) ---
+        function renderPolarCurve(file) {
+            const canvas = document.getElementById('polar-canvas');
+            if (!canvas) return;
+            drawPolarToCanvas(canvas, file);
         }
 
         // --- TAB 2: 多檔案配光疊加圖 (Polar Overlays) ---
@@ -1404,138 +1288,128 @@ TILT=NONE
             const canvas = document.getElementById('polar-overlay-canvas');
             if (!canvas) return;
 
-            const comparisonFiles = getSortedComparisonFiles();
             const legendContainer = document.getElementById('overlay-legends');
-            updateComparisonCount();
+            
+            // Set up crosshair and tooltip listeners once
+            if (!canvas.dataset.hasCrosshair) {
+                canvas.dataset.hasCrosshair = "true";
 
-            const dpr = window.devicePixelRatio || 1;
-            const parent = canvas.parentNode;
-            if (!parent) return;
-            const rect = parent.getBoundingClientRect();
-            if (rect.width <= 0) return;
+                canvas.addEventListener('mousemove', (event) => {
+                    const rect = canvas.getBoundingClientRect();
+                    const mx = event.clientX - rect.left;
+                    const my = event.clientY - rect.top;
 
-            canvas.width = rect.width * dpr;
-            canvas.height = (rect.width * 0.75) * dpr;
-            const ctx = canvas.getContext('2d');
-            if (!ctx) return;
-            ctx.scale(dpr, dpr);
+                    const width = rect.width;
+                    const height = rect.width * 0.75;
+                    const cx = width / 2;
+                    const cy = 35;
 
-            const width = rect.width;
-            const height = rect.width * 0.75;
-            ctx.clearRect(0, 0, width, height);
+                    const dx = mx - cx;
+                    const dy = my - cy;
 
-            if (comparisonFiles.length === 0) {
-                ctx.fillStyle = '#f8fafc';
-                ctx.fillRect(0, 0, width, height);
-                ctx.fillStyle = '#64748b';
-                ctx.font = '12px Inter, sans-serif';
-                ctx.textAlign = 'center';
-                ctx.fillText(tx('comparison.emptyTitle'), width / 2, height / 2 - 8);
-                ctx.fillText(tx('comparison.emptyInstruction'), width / 2, height / 2 + 12);
-                if (legendContainer) {
-                    legendContainer.innerHTML = `<div class="text-xs text-slate-500 bg-slate-50 border border-slate-200 rounded-lg p-3">${tx('comparison.emptyLegend')}</div>`;
-                }
-                return;
-            }
+                    if (dy >= 0) {
+                        const rad = Math.atan2(dy, dx);
+                        const deg = rad * 180 / Math.PI;
+                        const ang = Math.round(deg - 90);
+                        const gamma = Math.abs(ang);
 
-            const cx = width / 2;
-            const cy = 35;
-            const maxRadius = Math.max(10, Math.min(width / 2 - 30, height - 60));
-
-            // 尋找比較清單中的最大強度，不再使用所有已載入檔案
-            let absoluteMax = 100;
-            comparisonFiles.forEach(f => {
-                if (f.maxIntensity > absoluteMax) absoluteMax = f.maxIntensity;
-            });
-
-            function getNiceScale(maxVal) {
-                const candidates = [10, 50, 100, 200, 500, 1000, 2000, 3000, 5000, 10000, 15000, 20000, 30000, 50000, 100000];
-                for (let c of candidates) {
-                    if (maxVal <= c) return c;
-                }
-                return Math.ceil(maxVal / 10000) * 10000;
-            }
-            const rMax = getNiceScale(absoluteMax);
-
-            // 繪製背景網格
-            ctx.strokeStyle = '#f1f5f9';
-            ctx.lineWidth = 1;
-            ctx.fillStyle = '#94a3b8';
-            ctx.font = '8px sans-serif';
-            ctx.textAlign = 'center';
-            ctx.textBaseline = 'middle';
-
-            const rings = 5;
-            for (let r = 1; r <= rings; r++) {
-                const radius = (maxRadius / rings) * r;
-                ctx.beginPath();
-                ctx.arc(cx, cy, radius, 0, Math.PI, false);
-                ctx.stroke();
-
-                const ringVal = Math.round((rMax / rings) * r);
-                ctx.fillText(ringVal.toString(), cx, cy + radius + 8);
-            }
-
-            const angles = [-90, -60, -30, 0, 30, 60, 90];
-            angles.forEach(ang => {
-                const rad = (ang + 90) * Math.PI / 180;
-                const x = cx + maxRadius * Math.cos(rad);
-                const y = cy + maxRadius * Math.sin(rad);
-
-                ctx.beginPath();
-                ctx.moveTo(cx, cy);
-                ctx.lineTo(x, y);
-                ctx.stroke();
-
-                const labelX = cx + (maxRadius + 12) * Math.cos(rad);
-                const labelY = cy + (maxRadius + 12) * Math.sin(rad);
-                ctx.fillText(`${ang}°`, labelX, labelY);
-            });
-
-            if (legendContainer) legendContainer.innerHTML = '';
-
-            comparisonFiles.forEach((file, fIdx) => {
-                const color = COMPARE_COLORS[fIdx % COMPARE_COLORS.length];
-                if (legendContainer) {
-                    const masterIndex = loadedIesFiles.indexOf(file);
-                    const legendItem = document.createElement('div');
-                    legendItem.className = "flex items-center justify-between gap-2 py-1.5 border-b border-slate-100";
-                    legendItem.innerHTML = `
-                        <div class="flex items-center min-w-0">
-                            <span class="w-3 h-1 rounded mr-1.5 inline-block shrink-0" style="background-color: ${color}"></span>
-                            <span class="truncate font-semibold text-slate-800" title="${escapeHTML(file.fileName)}">${escapeHTML(file.fileName)}</span>
-                        </div>
-                        <button onclick="removeFromComparison(${masterIndex}, event)" class="text-[9px] px-2 py-0.5 rounded bg-slate-100 hover:bg-red-50 text-slate-500 hover:text-red-600 border border-slate-200">Remove</button>
-                    `;
-                    legendContainer.appendChild(legendItem);
-                }
-
-                function getH0Index() {
-                    let closestIdx = 0;
-                    let minDiff = Infinity;
-                    for (let i = 0; i < file.horizontalAngles.length; i++) {
-                        let diff = Math.min(Math.abs(file.horizontalAngles[i] - 0), Math.abs(360 - Math.abs(file.horizontalAngles[i] - 0)));
-                        if (diff < minDiff) {
-                            minDiff = diff;
-                            closestIdx = i;
+                        let tooltip = document.getElementById('polar-chart-tooltip');
+                        if (!tooltip) {
+                            tooltip = document.createElement('div');
+                            tooltip.id = 'polar-chart-tooltip';
+                            tooltip.className = 'absolute hidden pointer-events-none bg-slate-950/90 text-white p-3 rounded-lg shadow-xl text-xs z-50 backdrop-blur-sm border border-slate-800 transition-opacity duration-150';
+                            document.body.appendChild(tooltip);
                         }
-                    }
-                    return closestIdx;
-                }
-                function getH180Index() {
-                    let closestIdx = 0;
-                    let minDiff = Infinity;
-                    for (let i = 0; i < file.horizontalAngles.length; i++) {
-                        let diff = Math.min(Math.abs(file.horizontalAngles[i] - 180), Math.abs(360 - Math.abs(file.horizontalAngles[i] - 180)));
-                        if (diff < minDiff) {
-                            minDiff = diff;
-                            closestIdx = i;
-                        }
-                    }
-                    return closestIdx;
-                }
 
-                drawPhotometricPlane(ctx, cx, cy, maxRadius, rMax, file, getH0Index(), getH180Index(), color);
+                        const comparisonFiles = getSortedComparisonFiles();
+                        let tooltipHTML = `<div class="font-bold border-b border-slate-700 pb-1 mb-1.5 text-slate-300">Angle: C0-180 | ${gamma}°</div>`;
+
+                        comparisonFiles.forEach((file, fIdx) => {
+                            let closestIdx = 0;
+                            let minDiff = Infinity;
+                            for (let i = 0; i < file.verticalAngles.length; i++) {
+                                const diff = Math.abs(file.verticalAngles[i] - gamma);
+                                if (diff < minDiff) {
+                                    minDiff = diff;
+                                    closestIdx = i;
+                                }
+                            }
+                            const getHIndex = (targetAngle) => {
+                                let closest = 0;
+                                let minD = Infinity;
+                                for (let i = 0; i < file.horizontalAngles.length; i++) {
+                                    let diff = Math.min(Math.abs(file.horizontalAngles[i] - targetAngle), Math.abs(360 - Math.abs(file.horizontalAngles[i] - targetAngle)));
+                                    if (diff < minD) {
+                                        minD = diff;
+                                        closest = i;
+                                    }
+                                }
+                                return closest;
+                            };
+
+                            const planeIdx = ang < 0 ? getHIndex(0) : getHIndex(180);
+                            const candela = Math.round(file.candelaMatrix[planeIdx][closestIdx]);
+                            const color = COMPARE_COLORS[fIdx % COMPARE_COLORS.length];
+
+                            tooltipHTML += `
+                                <div class="flex items-center justify-between gap-4 py-0.5">
+                                    <div class="flex items-center min-w-0">
+                                        <span class="w-2.5 h-1 rounded mr-1.5 inline-block shrink-0" style="background-color: ${color}"></span>
+                                        <span class="truncate max-w-[120px] text-slate-200">${escapeHTML(file.fileName)}</span>
+                                    </div>
+                                    <span class="font-mono font-bold">${candela.toLocaleString()} cd</span>
+                                </div>
+                            `;
+                        });
+
+                        tooltip.innerHTML = tooltipHTML;
+                        tooltip.style.left = `${event.pageX + 15}px`;
+                        tooltip.style.top = `${event.pageY + 15}px`;
+                        tooltip.classList.remove('hidden');
+
+                        renderPolarOverlayChart({
+                            loadedIesFiles,
+                            activeFileIndex,
+                            getSortedComparisonFiles,
+                            updateComparisonCount,
+                            legendContainer,
+                            tx,
+                            escapeHTML,
+                            canvas
+                        }, { ang, gamma, mx, my });
+                    } else {
+                        hideCrosshair();
+                    }
+                });
+
+                canvas.addEventListener('mouseleave', hideCrosshair);
+
+                function hideCrosshair() {
+                    const tooltip = document.getElementById('polar-chart-tooltip');
+                    if (tooltip) tooltip.classList.add('hidden');
+
+                    renderPolarOverlayChart({
+                        loadedIesFiles,
+                        activeFileIndex,
+                        getSortedComparisonFiles,
+                        updateComparisonCount,
+                        legendContainer,
+                        tx,
+                        escapeHTML,
+                        canvas
+                    });
+                }
+            }
+
+            renderPolarOverlayChart({
+                loadedIesFiles,
+                activeFileIndex,
+                getSortedComparisonFiles,
+                updateComparisonCount,
+                legendContainer,
+                tx,
+                escapeHTML,
+                canvas
             });
         }
 
