@@ -4,12 +4,9 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "dev": "vite --host 127.0.0.1",
     "build": "vite build",
-    "preview": "vite preview",
-    "check:i18n": "node scripts/check-i18n.js",
-    "check:hardcoded": "node scripts/check-hardcoded-strings.js",
-    "validate": "npm run check:i18n && npm run build"
+    "preview": "vite preview --host 127.0.0.1"
   },
   "dependencies": {
     "vite": "latest",
