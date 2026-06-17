@@ -1,4 +1,5 @@
-// Extracted module boundary for maintainability.
-// The production implementation is currently wired through src/app/main.js to preserve
-// behaviour during the single-file to Vite refactor.
-export {};
+// Render Single Report UI module
+export function renderReport(index) {
+  // TODO: implement full rendering logic (moved from init.js)
+  console.warn('renderReport called with index', index);
+}
