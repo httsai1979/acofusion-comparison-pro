@@ -7,6 +7,7 @@ import { computeAimingMetrics as computeAimingMetricsCore } from "../photometry/
 import { buildAuditWarnings } from "../photometry/auditRules.js";
 import { locales as DICT } from "../i18n/index.js";
 import { BRAND } from "../config/brand.js";
+import { renderComparison } from "../ui/renderComparison.js";
 import "../styles/main.css";
 
 function applyBrand() {
@@ -781,9 +782,24 @@ TILT=NONE
                         ? 'bg-amber-500 text-slate-950 font-bold shadow-md transform scale-[1.02]' 
                         : 'bg-slate-900/60 text-slate-400 hover:bg-slate-800 border border-slate-800/80 hover:border-slate-700'
                 }`;
+                item.dataset.fileId = file.id;
                 item.dataset.fileName = String(file.fileName || '').toLowerCase();
                 item.dataset.fileType = String(file.classifiedType || '').toLowerCase();
                 item.dataset.fileFormat = (file.fileFormat || 'IES').toLowerCase();
+
+                // Bidirectional Hover Highlight Link
+                item.addEventListener('mouseenter', () => {
+                    const row = document.querySelector(`#comparison-matrix-body tr[data-file-id="${file.id}"]`);
+                    if (row) {
+                        row.classList.add('bg-slate-100');
+                    }
+                });
+                item.addEventListener('mouseleave', () => {
+                    const row = document.querySelector(`#comparison-matrix-body tr[data-file-id="${file.id}"]`);
+                    if (row) {
+                        row.classList.remove('bg-slate-100');
+                    }
+                });
                 
                 // 動態光型標籤
                 let badgeColor = "bg-slate-855 text-slate-300 border border-slate-700/50";
@@ -1525,69 +1541,25 @@ TILT=NONE
 
         // --- 核心對比表格矩陣更新 ---
         function updateComparisonMatrix() {
-            const matrixBody = document.getElementById('comparison-matrix-body');
-            if (!matrixBody) return;
-            matrixBody.innerHTML = '';
-            updateComparisonCount();
-
-            const sortSelect = document.getElementById('comparison-sort-select');
-            if (sortSelect && sortSelect.value !== comparisonSortKey) sortSelect.value = comparisonSortKey;
-            const sortBtn = document.getElementById('comparison-sort-direction');
-            if (sortBtn) sortBtn.innerText = comparisonSortDirection === 'asc' ? tx('asc') : tx('desc');
-
-            const comparisonFiles = getSortedComparisonFiles();
-            if (comparisonFiles.length === 0) {
-                const tr = document.createElement('tr');
-                tr.innerHTML = `
-                    <td colspan="9" class="py-8 px-4 text-center text-slate-500 bg-slate-50">
-                        <div class="font-bold text-slate-700 mb-1">${tx('comparison.emptyTitle')}</div>
-                        <div class="text-xs">請在左側 IES / LDT 檔案列表中開啟 Compare，將檔案加入 Multi Comparison Dashboard。</div>
-                    </td>
-                `;
-                matrixBody.appendChild(tr);
-                applyComparisonColumnVisibility();
-                return;
-            }
-
-            comparisonFiles.forEach((file) => {
-                const index = loadedIesFiles.indexOf(file);
-                const watts = file.inputWatts > 0 ? file.inputWatts : 0;
-                const efficiency = watts > 0 ? file.totalFlux / watts : 0;
-                const wattsText = watts > 0 ? watts.toFixed(1) : 'N/A';
-                const effText = watts > 0 ? efficiency.toFixed(1) : 'N/A';
-                
-                const tr = document.createElement('tr');
-                tr.className = index === activeFileIndex ? 'bg-amber-500/10 hover:bg-amber-500/15' : 'hover:bg-slate-50';
-                
-                tr.innerHTML = `
-                    <td data-col="file" class="py-3 px-3 font-semibold text-slate-900 max-w-[200px]" title="${escapeHTML(file.fileName)}"><span class="text-[9px] mr-1 px-1.5 py-0.5 rounded bg-slate-100 text-slate-500 border border-slate-200">${escapeHTML(file.fileFormat || 'IES')}</span><span class="truncate">${escapeHTML(file.fileName)}</span></td>
-                    <td data-col="type" class="py-3 px-2 font-bold text-amber-600">${escapeHTML(file.classifiedType)}</td>
-                    <td data-col="watts" class="py-3 px-2 text-center font-bold">${wattsText}</td>
-                    <td data-col="flux" class="py-3 px-2 text-center">${Math.round(file.totalFlux).toLocaleString()}</td>
-                    <td data-col="eff" class="py-3 px-2 text-center text-emerald-600 font-bold">${effText}</td>
-                    <td data-col="cbcp" class="py-3 px-2 text-center font-bold">${Math.round(file.maxIntensity).toLocaleString()}</td>
-                    <td data-col="ba" class="py-3 px-3 text-center font-semibold text-blue-600">${Math.round(file.fwhmC0.angle)}° / ${Math.round(file.fwhmC90.angle)}°</td>
-                    <td data-col="use" class="py-3 px-3 text-xs text-slate-500 max-w-[180px] truncate" title="${escapeHTML(localizedUse(file))}">${escapeHTML(localizedUse(file))}</td>
-                    <td class="py-3 px-3 text-center">
-                        <div class="flex items-center justify-center gap-1.5">
-                            <button onclick="viewSpecFromComparison(${index}, event)" class="text-[9px] px-2 py-1 rounded bg-slate-900 text-white hover:bg-slate-700 transition">View</button>
-                            <button onclick="removeFromComparison(${index}, event)" class="text-[9px] px-2 py-1 rounded bg-slate-100 text-slate-600 hover:bg-amber-50 hover:text-amber-700 border border-slate-200 transition">Remove</button>
-                            <button onclick="deleteFile(${index}, event)" class="text-[9px] px-2 py-1 rounded bg-red-50 text-red-600 hover:bg-red-100 border border-red-100 transition">Delete</button>
-                        </div>
-                    </td>
-                `;
-
-                tr.addEventListener('click', () => {
-                    activeFileIndex = index;
-                    updateFileList();
-                    renderReport(index); 
-                    updateComparisonMatrix();
-                    renderPolarOverlay();
-                });
-
-                matrixBody.appendChild(tr);
+            renderComparison({
+                loadedIesFiles,
+                activeFileIndex,
+                comparisonSortKey,
+                comparisonSortDirection,
+                tx,
+                escapeHTML,
+                localizedUse,
+                getSortedComparisonFiles,
+                updateComparisonCount,
+                applyComparisonColumnVisibility,
+                setActiveFileIndex: (idx) => { activeFileIndex = idx; },
+                updateFileList,
+                renderReport,
+                renderPolarOverlay,
+                viewSpecFromComparison,
+                removeFromComparison,
+                deleteFile
             });
-            applyComparisonColumnVisibility();
         }
 
         // --- TAB 3: 數據審查報告 (Anomaly Prevention List) ---
