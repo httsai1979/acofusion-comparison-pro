@@ -1277,11 +1277,7 @@ TILT=NONE
         }
 
         // --- 高清單一極座標圖渲染 (100% 同步自 image_f7f2cb.png 奢華格式) ---
-        function renderPolarCurve(file) {
-            const canvas = document.getElementById('polar-canvas');
-            if (!canvas) return;
-            drawPolarToCanvas(canvas, file);
-        }
+
 
         // --- TAB 2: 多檔案配光疊加圖 (Polar Overlays) ---
         function renderPolarOverlay() {
