@@ -981,7 +981,7 @@ TILT=NONE
 
             renderPolarCurve(file);
             updateDynamicVisuals();
-        }
+
 
         // 🌟 核心：更新規格書上的高級光譜與 Glare Risk 條
         function renderSpectralAndVisualGlare(file) {
