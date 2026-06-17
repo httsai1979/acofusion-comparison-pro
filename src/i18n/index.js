@@ -17,12 +17,4 @@ export const locales = {
   zh: zhHant
 };
 
-export const languageOptions = [
-  ["en", "English"],
-  ["de", "Deutsch"],
-  ["es", "Español"],
-  ["fa", "فارسی"],
-  ["zh-Hant", "繁體中文"],
-  ["zh-Hans", "简体中文"],
-  ["ja", "日本語"]
-];
+export { languageOptions } from "./languageNames.js";

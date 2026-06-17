@@ -27,8 +27,8 @@
         <div class="flex items-center space-x-4 mt-2 sm:mt-0">
             <!-- 模式切換 -->
             <div class="flex bg-slate-900/60 rounded-xl p-1 border border-slate-800 text-xs">
-                <button id="btn-mode-factory" onclick="setMode('factory')" class="px-4 py-2 rounded-lg font-semibold transition-all duration-300 bg-[#8ac43f] text-slate-955 shadow-md">資料包輸出模式</button>
-                <button id="btn-mode-pro" onclick="setMode('pro')" class="px-4 py-2 rounded-lg font-semibold text-slate-400 hover:text-white transition-all duration-300">選型比較模式</button>
+                <button id="btn-mode-factory" onclick="setMode('factory')" class="px-4 py-2 rounded-lg font-semibold transition-all duration-300 bg-[#8ac43f] text-slate-955 shadow-md"></button>
+                <button id="btn-mode-pro" onclick="setMode('pro')" class="px-4 py-2 rounded-lg font-semibold text-slate-400 hover:text-white transition-all duration-300"></button>
             </div>
 
             <!-- 語言切換 -->
@@ -52,7 +52,7 @@
             
             <!-- 1. IES 批次拖放區 -->
             <div class="space-y-2">
-                <h2 id="lbl-step1" class="text-xs font-bold text-slate-400 uppercase tracking-wider">1. 導入多個 IES / LDT 檔案</h2>
+                <h2 id="lbl-step1" class="text-xs font-bold text-slate-400 uppercase tracking-wider"></h2>
                 <div id="drop-zone" class="border-2 border-dashed border-slate-800 hover:border-[#8ac43f]/50 rounded-2xl p-6 text-center cursor-pointer transition-all duration-300 bg-slate-900/20 hover:bg-slate-900/50 flex flex-col items-center justify-center group shadow-inner">
                     <input type="file" id="file-input" accept=".ies,.ldt" multiple class="hidden" />
                     <div class="p-3 bg-slate-900 rounded-xl group-hover:scale-110 group-hover:bg-slate-800 transition duration-300 mb-2">
@@ -60,8 +60,8 @@
                             <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                         </svg>
                     </div>
-                    <p id="lbl-drag-text" class="text-xs font-semibold text-slate-300">拖曳一或多個 IES / LDT 到此處</p>
-                    <p id="lbl-drag-sub" class="text-[9px] text-slate-500 mt-1">支援多選，系統將自動進行批次分析</p>
+                    <p id="lbl-drag-text" class="text-xs font-semibold text-slate-300"></p>
+                    <p id="lbl-drag-sub" class="text-[9px] text-slate-500 mt-1"></p>
                 </div>
             </div>
 
@@ -80,7 +80,7 @@
             <!-- 2. 批次解析文件列表 (含一鍵刪除按鈕) -->
             <div class="flex flex-col min-h-[120px] max-h-[190px] space-y-2">
                 <div class="flex justify-between items-center">
-                    <h2 id="lbl-batch-list" class="text-xs font-bold text-slate-400 uppercase tracking-wider">2. 批次檔案列表</h2>
+                    <h2 id="lbl-batch-list" class="text-xs font-bold text-slate-400 uppercase tracking-wider"></h2>
                     <span id="file-count" class="text-[10px] bg-slate-900 border border-slate-800 px-2 py-0.5 rounded-full text-[#8ac43f] font-bold">0</span>
                 </div>
                 <div id="file-list" class="flex-1 overflow-y-auto border border-slate-900 rounded-xl p-2 bg-slate-950/40 custom-scrollbar space-y-1.5">
@@ -90,25 +90,25 @@
 
             <!-- 光譜與色彩自訂 (CCT / CRI) -->
             <div class="border-t border-slate-900 pt-4 space-y-3">
-                <h2 id="lbl-colour-title" class="text-xs font-bold text-slate-400 uppercase tracking-wider">標稱色彩資料</h2>
+                <h2 id="lbl-colour-title" class="text-xs font-bold text-slate-400 uppercase tracking-wider"></h2>
                 <div class="grid grid-cols-2 gap-3 text-xs">
                     <div>
-                        <label id="lbl-cct-label" class="block text-slate-400 mb-1">標稱 CCT</label>
+                        <label id="lbl-cct-label" class="block text-slate-400 mb-1"></label>
                         <select id="spec-cct-select" onchange="overrideSpectral()" class="w-full bg-slate-900 text-white p-2 rounded-lg border border-slate-800 outline-none focus:border-[#8ac43f]">
-                            <option value="N/A" selected>Not provided / N/A</option>
-                            <option value="2700K">2700K (超暖白)</option>
-                            <option value="3000K">3000K (暖白)</option>
-                            <option value="4000K">4000K (自然白)</option>
-                            <option value="5000K">5000K (冷白)</option>
+                            <option value="N/A" selected></option>
+                            <option value="2700K"></option>
+                            <option value="3000K"></option>
+                            <option value="4000K"></option>
+                            <option value="5000K"></option>
                         </select>
                     </div>
                     <div>
-                        <label id="lbl-cri-label" class="block text-slate-400 mb-1">標稱 CRI</label>
+                        <label id="lbl-cri-label" class="block text-slate-400 mb-1"></label>
                         <select id="spec-cri-select" onchange="overrideSpectral()" class="w-full bg-slate-900 text-white p-2 rounded-lg border border-slate-800 outline-none focus:border-[#8ac43f]">
-                            <option value="N/A" selected>Not provided / N/A</option>
-                            <option value="80">CRI 80 (常規)</option>
-                            <option value="90">CRI 90 (高顯)</option>
-                            <option value="97">CRI 97 (博物館級)</option>
+                            <option value="N/A" selected></option>
+                            <option value="80"></option>
+                            <option value="90"></option>
+                            <option value="97"></option>
                         </select>
                     </div>
                 </div>
@@ -116,24 +116,24 @@
 
             <!-- 3. 資料包輸出區 (僅在 Data Export Mode 顯示) -->
             <div id="factory-actions-panel" class="border-t border-slate-900 pt-4 space-y-2.5">
-                <h2 id="lbl-factory-title" class="text-xs font-bold text-slate-400 uppercase tracking-wider">3. 資料包輸出</h2>
+                <h2 id="lbl-factory-title" class="text-xs font-bold text-slate-400 uppercase tracking-wider"></h2>
                 <button onclick="exportBatchZIP('all')" class="w-full bg-gradient-to-r from-[#8ac43f] to-[#73aa31] hover:from-[#73aa31] hover:to-[#5e8c25] text-slate-950 font-bold py-3.5 px-4 rounded-xl flex items-center justify-center space-x-2 transition duration-300 transform active:scale-[0.98] shadow-lg shadow-[#8ac43f]/10">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
                     </svg>
-                    <span id="btn-export-zip">匯出全部資料包 ZIP</span>
+                    <span id="btn-export-zip"></span>
                 </button>
                 <button onclick="exportBatchZIP('comparison')" class="w-full bg-slate-900/60 hover:bg-slate-900 border border-slate-800 hover:border-[#8ac43f]/60 text-slate-300 hover:text-white font-semibold py-3 px-4 rounded-xl flex items-center justify-center space-x-2 transition duration-300">
                     <svg class="w-4 h-4 text-[#8ac43f]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M3 7h18M3 12h18M3 17h18"></path>
                     </svg>
-                    <span id="btn-export-comparison">匯出比較清單</span>
+                    <span id="btn-export-comparison"></span>
                 </button>
                 <button onclick="triggerPrint()" class="w-full bg-slate-900/60 hover:bg-slate-900 border border-slate-800 hover:border-slate-700 text-slate-300 font-semibold py-3 px-4 rounded-xl flex items-center justify-center space-x-2 transition duration-300">
                     <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path>
                     </svg>
-                    <span id="btn-print-pdf">列印 PDF 規格書</span>
+                    <span id="btn-print-pdf"></span>
                 </button>
             </div>
 
@@ -141,17 +141,17 @@
             <div id="pro-controls-panel" class="hidden border-t border-slate-900 pt-4 space-y-4">
                 <div class="flex items-start justify-between gap-3">
                     <div>
-                        <h2 id="lbl-pro-settings" class="text-xs font-bold text-slate-400 uppercase tracking-wider">3. Aiming Preview Control</h2>
-                        <p id="lbl-pro-desc" class="text-[10px] text-slate-500 mt-1 leading-relaxed">調整安裝高度、Tilt 與 Rotation，用於快速預覽光束足跡、偏移與相對照度；非 DIALux / Relux 等級空間計算。</p>
+                        <h2 id="lbl-pro-settings" class="text-xs font-bold text-slate-400 uppercase tracking-wider"></h2>
+                        <p id="lbl-pro-desc" class="text-[10px] text-slate-500 mt-1 leading-relaxed"></p>
                     </div>
-                    <button id="btn-reset" onclick="resetAimingControls()" class="mini-chip shrink-0">重設</button>
+                    <button id="btn-reset" onclick="resetAimingControls()" class="mini-chip shrink-0"></button>
                 </div>
 
                 <div class="aiming-card space-y-4">
                     <!-- 安裝高度 -->
                     <div class="space-y-2">
                         <div class="flex justify-between items-center text-xs">
-                            <span id="lbl-sim-h" class="text-slate-300 font-semibold">安裝高度 Height (H)</span>
+                            <span id="lbl-sim-h" class="text-slate-300 font-semibold"></span>
                             <div class="flex items-center gap-2">
                                 <input type="number" id="height-input" min="0.5" max="20" step="0.1" value="5.0" class="aiming-number" />
                                 <span class="text-[#8ac43f] font-bold" id="height-val">5.00 m</span>
@@ -170,7 +170,7 @@
                     <!-- 仰角 / Tilt -->
                     <div class="space-y-2">
                         <div class="flex justify-between items-center text-xs">
-                            <span id="lbl-sim-tilt" class="text-slate-300 font-semibold">仰角 / 瞄準角 Tilt</span>
+                            <span id="lbl-sim-tilt" class="text-slate-300 font-semibold"></span>
                             <div class="flex items-center gap-2">
                                 <input type="number" id="tilt-input" min="0" max="75" step="1" value="0" class="aiming-number" />
                                 <span class="text-[#8ac43f] font-bold" id="tilt-val">0°</span>
@@ -189,7 +189,7 @@
                     <!-- 水平擺角 / Rotation -->
                     <div class="space-y-2">
                         <div class="flex justify-between items-center text-xs">
-                            <span id="lbl-sim-rot" class="text-slate-300 font-semibold">水平擺角 Rotation</span>
+                            <span id="lbl-sim-rot" class="text-slate-300 font-semibold"></span>
                             <div class="flex items-center gap-2">
                                 <input type="number" id="rot-input" min="0" max="360" step="1" value="0" class="aiming-number" />
                                 <span class="text-[#8ac43f] font-bold" id="rot-val">0°</span>
@@ -208,10 +208,10 @@
 
                 <div id="aiming-summary-panel" class="aiming-card text-[10px] text-slate-300 leading-relaxed space-y-2">
                     <div class="flex justify-between border-b border-slate-800 pb-2">
-                        <span id="lbl-preview-summary" class="text-slate-500 font-bold uppercase tracking-wider">預覽摘要</span>
-                        <span id="lbl-indicative-only" class="text-[#8ac43f] font-bold">僅供選型參考</span>
+                        <span id="lbl-preview-summary" class="text-slate-500 font-bold uppercase tracking-wider"></span>
+                        <span id="lbl-indicative-only" class="text-[#8ac43f] font-bold"></span>
                     </div>
-                    <div id="aiming-summary-text">載入配光檔案後可預覽 aiming 數值。</div>
+                    <div id="aiming-summary-text"></div>
                 </div>
             </div>
 
@@ -222,11 +222,11 @@
             
             <!-- 工作區標籤頁 -->
             <div class="no-print max-w-[1000px] mx-auto mb-5 flex space-x-2 text-xs">
-                <button id="tab-btn-single" onclick="switchTab('single')" class="tab-button is-active">Single Report</button>
-                <button id="tab-btn-compare" onclick="switchTab('compare')" class="tab-button">Comparison</button>
-                <button id="tab-btn-aiming" onclick="switchTab('aiming')" class="tab-button">Aiming Preview</button>
-                <button id="tab-btn-audit" onclick="switchTab('audit')" class="tab-button">Audit <span id="audit-badge" class="badge-count hidden">0</span></button>
-                <button id="tab-btn-export" onclick="switchTab('export')" class="tab-button">Export</button>
+                <button id="tab-btn-single" onclick="switchTab('single')" class="tab-button is-active"></button>
+                <button id="tab-btn-compare" onclick="switchTab('compare')" class="tab-button"></button>
+                <button id="tab-btn-aiming" onclick="switchTab('aiming')" class="tab-button"></button>
+                <button id="tab-btn-audit" onclick="switchTab('audit')" class="tab-button"><span id="audit-badge" class="badge-count hidden">0</span></button>
+                <button id="tab-btn-export" onclick="switchTab('export')" class="tab-button"></button>
             </div>
 
             <!-- TAB 1: 單一規格書卡片 (比擬 ERCO 原廠奢華感) -->
@@ -248,14 +248,14 @@
                                 </g>
                             </svg>
                         </div>
-                        <h2 id="report-title" class="text-2xl font-bold text-slate-900 leading-tight">載入中...</h2>
-                        <p id="report-subtitle" class="text-xs text-slate-500 mt-1">IES / LDT 配光資料與指示性 Aiming 預覽</p>
+                        <h2 id="report-title" class="text-2xl font-bold text-slate-900 leading-tight"></h2>
+                        <p id="report-subtitle" class="text-xs text-slate-500 mt-1"></p>
                     </div>
                     <div class="text-left md:text-right flex flex-col">
-                        <div id="lbl-classified-type" class="text-[9px] font-bold text-slate-400 tracking-wider">分類光型</div>
+                        <div id="lbl-classified-type" class="text-[9px] font-bold text-slate-400 tracking-wider"></div>
                         <div id="report-type-badge" class="text-xs bg-[#8ac43f] text-slate-950 px-2.5 py-1 rounded-lg font-bold uppercase inline-block my-1">-</div>
                         <div id="report-id" class="text-[11px] text-slate-600 font-semibold my-0.5">File: -</div>
-                        <div id="report-date" class="text-[11px] text-slate-500">測試日期: -</div>
+                        <div id="report-date" class="text-[11px] text-slate-500"></div>
                         <div id="report-brand-contact" class="report-brand-contact tech-val"></div>
                     </div>
                 </div>
@@ -263,27 +263,27 @@
                 <!-- 核心物理參數欄 -->
                 <div class="grid grid-cols-2 md:grid-cols-3 gap-6 bg-slate-50 rounded-xl p-5 border border-slate-100 print:bg-white print:border-slate-200">
                     <div>
-                        <span id="lbl-data-watts" class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">輸入功率 Input Power</span>
+                        <span id="lbl-data-watts" class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1"></span>
                         <span id="spec-power" class="text-lg font-bold text-slate-800 tech-val">-</span>
                     </div>
                     <div>
-                        <span id="lbl-data-efficacy" class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">發光效率 Luminous Efficacy</span>
+                        <span id="lbl-data-efficacy" class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1"></span>
                         <span id="spec-efficacy" class="text-lg font-bold text-[#8ac43f] tech-val">-</span>
                     </div>
                     <div>
-                        <span id="lbl-data-lumens" class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">輸出流明 Output Lumens</span>
+                        <span id="lbl-data-lumens" class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1"></span>
                         <span id="spec-lumens" class="text-lg font-bold text-slate-800 tech-val">-</span>
                     </div>
                     <div>
-                        <span id="lbl-data-cbcp" class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">峰值光強 CBCP / Peak</span>
+                        <span id="lbl-data-cbcp" class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1"></span>
                         <span id="spec-peak-cd" class="text-lg font-bold text-slate-800 tech-val">-</span>
                     </div>
                     <div>
-                        <span id="lbl-data-ba-c0" class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">光束角 Beam Angle (C0-180)</span>
+                        <span id="lbl-data-ba-c0" class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1"></span>
                         <span id="spec-ba-c0" class="text-lg font-bold text-slate-800 tech-val">-</span>
                     </div>
                     <div>
-                        <span id="lbl-data-ba-c90" class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">光束角 Beam Angle (C90-270)</span>
+                        <span id="lbl-data-ba-c90" class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1"></span>
                         <span id="spec-ba-c90" class="text-lg font-bold text-slate-800 tech-val">-</span>
                     </div>
                 </div>
@@ -292,14 +292,14 @@
                 <div class="border-t border-b border-slate-100 py-6 grid grid-cols-1 md:grid-cols-2 gap-8 text-xs text-slate-700">
                     <!-- 左半：標稱色彩資料。R9 / R15 / Rf / Rg 不由 CRI 推估 -->
                     <div class="space-y-4">
-                        <h4 class="font-bold text-slate-900 uppercase tracking-wider border-b pb-1.5">標稱色彩資料 DECLARED COLOUR DATA</h4>
+                        <h4 id="print-colour-heading" class="font-bold text-slate-900 uppercase tracking-wider border-b pb-1.5"></h4>
                         <div class="grid grid-cols-3 gap-3">
                             <div>
-                                <span class="block text-slate-400 text-[9px] font-bold uppercase">色溫 (CCT)</span>
+                                <span id="print-cct-label" class="block text-slate-400 text-[9px] font-bold uppercase"></span>
                                 <span id="print-cct-val" class="text-base font-extrabold text-slate-900">N/A</span>
                             </div>
                             <div>
-                                <span class="block text-slate-400 text-[9px] font-bold uppercase">一般顯指 (Ra)</span>
+                                <span id="print-cri-label" class="block text-slate-400 text-[9px] font-bold uppercase"></span>
                                 <span id="print-cri-val" class="text-base font-extrabold text-emerald-600">N/A</span>
                             </div>
                             <div>
@@ -333,18 +333,18 @@
 
                     <!-- 右半：舒適度與 BUG 評級 (Shielding & Glare Risk Index & BUG) -->
                     <div class="space-y-4">
-                        <h4 class="font-bold text-slate-900 uppercase tracking-wider border-b pb-1.5">視覺舒適度風險提示 COMFORT RISK INDICATOR</h4>
+                        <h4 id="print-comfort-heading" class="font-bold text-slate-900 uppercase tracking-wider border-b pb-1.5"></h4>
                         <div class="grid grid-cols-3 gap-3">
                             <div>
-                                <span class="block text-slate-400 text-[9px] font-bold uppercase">防眩遮光角</span>
+                                <span id="print-shielding-label" class="block text-slate-400 text-[9px] font-bold uppercase"></span>
                                 <span id="shielding-angle-val" class="text-base font-extrabold text-slate-900">30°</span>
                             </div>
                             <div>
-                                <span class="block text-slate-400 text-[9px] font-bold uppercase">初步眩光風險</span>
-                                <span id="print-ugr-val" class="text-base font-extrabold text-emerald-600">Low Risk</span>
+                                <span id="print-glare-label" class="block text-slate-400 text-[9px] font-bold uppercase"></span>
+                                <span id="print-ugr-val" class="text-base font-extrabold text-emerald-600"></span>
                             </div>
                             <div>
-                                <span class="block text-slate-400 text-[9px] font-bold uppercase">溢光評級 (BUG)</span>
+                                <span id="print-bug-label" class="block text-slate-400 text-[9px] font-bold uppercase"></span>
                                 <span id="print-bug-val" class="text-base font-extrabold text-slate-800">B1-U1-G0</span>
                             </div>
                         </div>
@@ -352,15 +352,15 @@
                         <!-- 眩光風險刻度條 -->
                         <div>
                             <div class="flex justify-between text-[8px] text-slate-400 font-bold mb-1">
-                                <span>Low</span>
-                                <span>Medium</span>
-                                <span>High</span>
+                                <span id="risk-low-label"></span>
+                                <span id="risk-medium-label"></span>
+                                <span id="risk-high-label"></span>
                             </div>
                             <div class="w-full bg-slate-100 rounded-full h-2 relative">
                                 <div id="ugr-indicator" class="absolute top-1/2 -translate-y-1/2 w-3.5 h-3.5 bg-emerald-500 rounded-full border-2 border-white shadow transition-all duration-500" style="left: 20%"></div>
                             </div>
                         </div>
-                        <p class="text-[9.5px] text-slate-400 italic">此為基於光束角、峰值光強、安裝高度與擺角的初步風險提示，並非正式 CIE 117 / EN 12464-1 UGR 計算。</p>
+                        <p id="print-glare-note" class="text-[9.5px] text-slate-400 italic"></p>
                     </div>
                 </div>
 
@@ -370,10 +370,7 @@
                     <!-- 配光曲線 -->
                     <div class="border border-slate-150 rounded-xl p-5 flex flex-col items-center">
                         <div class="w-full flex justify-between items-center mb-4">
-                            <h3 id="lbl-chart-polar" class="text-xs font-bold text-slate-800 uppercase tracking-wider flex items-center">
-                                <span class="w-2.5 h-2.5 rounded-full bg-slate-900 mr-1.5 inline-block"></span>
-                                配光曲線圖 POLAR CURVE
-                            </h3>
+                            <h3 id="lbl-chart-polar" class="text-xs font-bold text-slate-800 uppercase tracking-wider flex items-center"></h3>
                             <div class="flex space-x-3 text-[10px] font-medium">
                                 <span class="flex items-center text-blue-600">
                                     <span class="w-2 h-0.5 bg-blue-600 mr-1 inline-block"></span> C0 - C180
@@ -390,10 +387,7 @@
 
                     <!-- 光斑/牆面投影視覺化 -->
                     <div class="border border-slate-150 rounded-xl p-5 flex flex-col items-center">
-                        <h3 id="lbl-chart-visual" class="text-xs font-bold text-slate-800 uppercase tracking-wider w-full mb-4 flex items-center">
-                            <span class="w-2.5 h-2.5 rounded-full bg-[#8ac43f] mr-1.5 inline-block"></span>
-                            初步光束足跡預覽 INDICATIVE BEAM FOOTPRINT
-                        </h3>
+                        <h3 id="lbl-chart-visual" class="text-xs font-bold text-slate-800 uppercase tracking-wider w-full mb-4 flex items-center"></h3>
                         <div id="visualizer-container" class="w-full flex items-center justify-center">
                             <!-- SVG 將由此動態生成 -->
                         </div>
@@ -404,19 +398,19 @@
                 <!-- 數據表格 (與圖片規格一致) -->
                 <div class="border border-slate-200 rounded-xl overflow-hidden shadow-sm">
                     <div class="bg-slate-900 text-white py-3.5 px-4 flex justify-between items-center">
-                        <h3 id="lbl-table-matrix" class="text-xs font-bold tracking-wider uppercase">動態光錐與傾斜投影矩陣 AIMING & FOOTPRINT PREVIEW DATA</h3>
-                        <span id="lbl-table-sub" class="text-[9px] text-slate-400">初步預覽高度 / 仰角 / 水平擺角對偏移、光斑尺寸與相對照度的影響</span>
+                        <h3 id="lbl-table-matrix" class="text-xs font-bold tracking-wider uppercase"></h3>
+                        <span id="lbl-table-sub" class="text-[9px] text-slate-400"></span>
                     </div>
                     <div class="overflow-x-auto">
                         <table class="w-full text-left border-collapse text-xs md:text-sm">
                             <thead>
                                 <tr class="bg-slate-50 border-b border-slate-200 text-[10px] md:text-xs font-bold text-slate-500 uppercase tracking-wider">
-                                    <th id="th-height" class="py-3 px-4 text-center">高度 H (m)</th>
-                                    <th id="th-e0" class="py-3 px-2 text-center">正下方照度 E-below (lx)</th>
-                                    <th id="th-emax" class="py-3 px-2 text-center">軸線預估 E-axis (lx)</th>
-                                    <th id="th-offset" class="py-3 px-2 text-center">偏移距離 d (m)</th>
-                                    <th id="th-dmajor" class="py-3 px-4 text-center">長軸 D_Major (m)</th>
-                                    <th id="th-dminor" class="py-3 px-4 text-center">短軸 D_Minor (m)</th>
+                                    <th id="th-height" class="py-3 px-4 text-center"></th>
+                                    <th id="th-e0" class="py-3 px-2 text-center"></th>
+                                    <th id="th-emax" class="py-3 px-2 text-center"></th>
+                                    <th id="th-offset" class="py-3 px-2 text-center"></th>
+                                    <th id="th-dmajor" class="py-3 px-4 text-center"></th>
+                                    <th id="th-dminor" class="py-3 px-4 text-center"></th>
                                 </tr>
                             </thead>
                             <tbody id="cone-table-body" class="divide-y divide-slate-100 text-slate-700 font-medium">
@@ -432,13 +426,13 @@
             <div id="tab-compare" class="hidden max-w-[1000px] mx-auto bg-white border border-slate-200 rounded-2xl p-6 lg:p-10 shadow-2xl text-slate-900 flex flex-col space-y-8">
                 
                 <div class="border-b-2 border-slate-900 pb-5">
-                    <h2 id="lbl-comp-title" class="text-2xl font-bold text-slate-900">多燈具配光比較矩陣</h2>
-                    <p id="lbl-comp-sub" class="text-xs text-slate-500 mt-1">同時對比多組 IES / LDT 文件，協助選型與應用推薦</p>
+                    <h2 id="lbl-comp-title" class="text-2xl font-bold text-slate-900"></h2>
+                    <p id="lbl-comp-sub" class="text-xs text-slate-500 mt-1"></p>
                     <div id="comparison-count" class="inline-flex mt-3 px-3 py-1 rounded-full bg-slate-100 border border-slate-200 text-[10px] font-bold text-slate-600">Compared: 0 / 0 files</div>
                     <div id="comparison-controls" class="mt-4 p-3 rounded-xl bg-slate-50 border border-slate-200 text-xs space-y-3">
                         <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-3">
                             <div class="flex items-center gap-2">
-                                <span id="lbl-sort" class="comparison-toolbar-label">排序</span>
+                                <span id="lbl-sort" class="comparison-toolbar-label"></span>
                                 <select id="comparison-sort-select" onchange="setComparisonSort(this.value)" class="bg-white border border-slate-200 rounded-lg px-2.5 py-1.5 text-xs text-slate-700 outline-none focus:border-[#8ac43f]">
                                     <option value="fileName">File Name</option>
                                     <option value="classifiedType">Classification</option>
@@ -450,10 +444,10 @@
                                 </select>
                                 <button id="comparison-sort-direction" onclick="toggleComparisonSortDirection()" class="px-2.5 py-1.5 rounded-lg border border-slate-200 bg-white text-slate-700 hover:border-[#8ac43f] transition">↑ Asc</button>
                             </div>
-                            <button id="btn-reset-columns" onclick="resetComparisonColumns()" class="text-[10px] px-2.5 py-1.5 rounded-lg bg-slate-900 text-white hover:bg-slate-700 transition">重設欄位</button>
+                            <button id="btn-reset-columns" onclick="resetComparisonColumns()" class="text-[10px] px-2.5 py-1.5 rounded-lg bg-slate-900 text-white hover:bg-slate-700 transition"></button>
                         </div>
                         <div class="flex flex-wrap gap-2 items-center">
-                            <span id="lbl-columns" class="comparison-toolbar-label mr-1">欄位</span>
+                            <span id="lbl-columns" class="comparison-toolbar-label mr-1"></span>
                             <label class="inline-flex items-center gap-1.5"><input type="checkbox" class="comparison-col-toggle accent-[#8ac43f]" data-col-toggle="file" checked onchange="applyComparisonColumnVisibility()"> File</label>
                             <label class="inline-flex items-center gap-1.5"><input type="checkbox" class="comparison-col-toggle accent-[#8ac43f]" data-col-toggle="type" checked onchange="applyComparisonColumnVisibility()"> Type</label>
                             <label class="inline-flex items-center gap-1.5"><input type="checkbox" class="comparison-col-toggle accent-[#8ac43f]" data-col-toggle="watts" checked onchange="applyComparisonColumnVisibility()"> Watts</label>
@@ -469,14 +463,14 @@
                 <!-- 1. 多組 Polar Overlay 疊圖 -->
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                     <div class="md:col-span-2 border border-slate-200 rounded-xl p-5 flex flex-col items-center">
-                        <h3 id="lbl-comp-overlay" class="text-xs font-bold text-slate-800 uppercase tracking-wider w-full mb-3">配光曲線多鏡疊圖 (Polar Overlays)</h3>
+                        <h3 id="lbl-comp-overlay" class="text-xs font-bold text-slate-800 uppercase tracking-wider w-full mb-3"></h3>
                         <div class="relative w-full aspect-[4/3] flex items-center justify-center">
                             <canvas id="polar-overlay-canvas" class="w-full h-full max-h-[250px]"></canvas>
                         </div>
                     </div>
                     
                     <div class="border border-slate-200 rounded-xl p-5 flex flex-col">
-                        <h3 id="lbl-comp-legend" class="text-xs font-bold text-slate-800 uppercase tracking-wider mb-3">疊圖對比圖例</h3>
+                        <h3 id="lbl-comp-legend" class="text-xs font-bold text-slate-800 uppercase tracking-wider mb-3"></h3>
                         <div id="overlay-legends" class="space-y-2 overflow-y-auto max-h-[220px] custom-scrollbar text-xs">
                             <!-- 圖例動態生成 -->
                         </div>
@@ -489,15 +483,15 @@
                         <table class="w-full text-left border-collapse text-xs">
                             <thead>
                                 <tr class="bg-slate-900 text-white font-bold text-[10px] md:text-xs uppercase tracking-wider">
-                                    <th id="th-comp-file" data-col="file" class="py-3 px-3">檔案名稱</th>
-                                    <th id="th-comp-type" data-col="type" class="py-3 px-2">分析光型</th>
-                                    <th id="th-comp-watts" data-col="watts" class="py-3 px-2 text-center">功率 (W)</th>
-                                    <th id="th-comp-flux" data-col="flux" class="py-3 px-2 text-center">流明 (lm)</th>
-                                    <th id="th-comp-eff" data-col="eff" class="py-3 px-2 text-center">光效 (lm/W)</th>
-                                    <th id="th-comp-cbcp" data-col="cbcp" class="py-3 px-2 text-center">峰值 (cd)</th>
-                                    <th id="th-comp-ba" data-col="ba" class="py-3 px-3 text-center">半值角 (C0/C90)</th>
-                                    <th id="th-comp-use" data-col="use" class="py-3 px-3">推薦應用場景</th>
-                                    <th id="th-comp-action" class="py-3 px-3 text-center">操作</th>
+                                    <th id="th-comp-file" data-col="file" class="py-3 px-3"></th>
+                                    <th id="th-comp-type" data-col="type" class="py-3 px-2"></th>
+                                    <th id="th-comp-watts" data-col="watts" class="py-3 px-2 text-center"></th>
+                                    <th id="th-comp-flux" data-col="flux" class="py-3 px-2 text-center"></th>
+                                    <th id="th-comp-eff" data-col="eff" class="py-3 px-2 text-center"></th>
+                                    <th id="th-comp-cbcp" data-col="cbcp" class="py-3 px-2 text-center"></th>
+                                    <th id="th-comp-ba" data-col="ba" class="py-3 px-3 text-center"></th>
+                                    <th id="th-comp-use" data-col="use" class="py-3 px-3"></th>
+                                    <th id="th-comp-action" class="py-3 px-3 text-center"></th>
                                 </tr>
                             </thead>
                             <tbody id="comparison-matrix-body" class="divide-y divide-slate-100 text-slate-700 font-medium">
@@ -519,20 +513,20 @@
                         </svg>
                         IES / LDT 數據完整性與異常檢核
                     </h2>
-                    <p id="lbl-audit-sub" class="text-xs text-slate-500 mt-1">自動檢測 IES / LDT 配光與產品命名、參數不相符之處，避免規格書出錯</p>
+                    <p id="lbl-audit-sub" class="text-xs text-slate-500 mt-1"></p>
                 </div>
 
                 <div id="audit-reports-list" class="space-y-4">
                     <!-- 動態載入審核警告項目 -->
-                    <p class="text-sm text-slate-400 py-6 text-center">尚未導入檔案或數據 100% 正確。</p>
+                    <p id="audit-empty-state" class="text-sm text-slate-400 py-6 text-center"></p>
                 </div>
 
             </div>
 
             <div id="tab-aiming" class="hidden app-card">
                 <div class="section-heading">
-                    <h2>Aiming & Footprint Preview</h2>
-                    <p>Indicative selection preview only. Not a project-level room simulation.</p>
+                    <h2 id="aiming-tab-title"></h2>
+                    <p id="aiming-tab-desc"></p>
                 </div>
                 <div class="aiming-grid">
                     <div id="aiming-preview-copy" class="muted-panel">
@@ -546,14 +540,14 @@
 
             <div id="tab-export" class="hidden app-card">
                 <div class="section-heading">
-                    <h2>Data Package Export</h2>
-                    <p>Export original IES / LDT files, CSV summary, audit data, polar images and scope README.</p>
+                    <h2 id="export-tab-title"></h2>
+                    <p id="export-tab-desc"></p>
                 </div>
                 <div class="export-actions">
-                    <button class="primary-action" onclick="exportBatchZIP('all')">Export All Files</button>
-                    <button class="secondary-action" onclick="exportBatchZIP('comparison')">Export Comparison Set</button>
+                    <button id="export-all-files" class="primary-action" onclick="exportBatchZIP('all')"></button>
+                    <button id="export-comparison-set" class="secondary-action" onclick="exportBatchZIP('comparison')"></button>
                 </div>
-                <p class="scope-note">This tool supports photometric comparison, audit, selection support, aiming preview and data package export. It is not DIALux, Relux, AGi32, formal UGR software, EN 12464-1 compliance software or full room simulation software.</p>
+                <p id="export-scope-note" class="scope-note"></p>
                 <div class="brand-contact">
                     <span id="footer-company"></span>
                     <a id="footer-website" target="_blank" rel="noreferrer"></a>

@@ -1,7 +1,7 @@
 ﻿export const BRAND = Object.freeze({
   companyName: "ACOFUSION Lighting",
   tagline: "Lighting Smartly",
-  logoPath: "/assets/ACOfusion_logo.jpg",
+  logoPath: "/assets/logo/ACOfusion_logo.jpg",
   website: "https://www.acofusion.com",
   email: "james@acofusion.com",
   toolName: "Photometric Comparison PRO",
