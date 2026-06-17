@@ -1,0 +1,280 @@
+/* acofusion-comparison-pro - Component Stylesheet */
+/* Refines UI elements with Apple premium rounding & Material Design 3 interactive states */
+
+/* 1. Cards (Apple-style 12px & 16px soft corners) */
+#tab-single,
+#tab-compare,
+#tab-audit,
+.app-card {
+  max-width: 1180px;
+  margin: 0 auto;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  padding: 30px;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.04);
+  color: var(--ink);
+  border-radius: var(--radius-lg) !important; /* 16px Apple style rounded card */
+  transition: box-shadow var(--transition-normal);
+}
+
+#tab-single:hover,
+#tab-compare:hover,
+#tab-audit:hover,
+.app-card:hover {
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+}
+
+.aiming-card,
+.metric-pill {
+  border: 1px solid var(--line);
+  background: var(--panel);
+  padding: var(--spacing-12) var(--spacing-16);
+  border-radius: var(--radius-md) !important; /* 12px Apple style rounded inner card */
+  transition: transform var(--transition-fast), border-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.aiming-card:hover,
+.metric-pill:hover {
+  transform: translateY(-2px);
+  border-color: var(--accent);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
+}
+
+.muted-panel {
+  border: 1px solid var(--line);
+  background: var(--soft);
+  padding: 18px;
+  color: var(--muted);
+  border-radius: var(--radius-md);
+}
+
+/* 2. Drag & Drop Upload Zone (Google Material 3 / Apple Interactive Fusion) */
+#drop-zone {
+  border: 2px dashed var(--line);
+  padding: var(--spacing-24);
+  background: var(--bg);
+  text-align: center;
+  cursor: pointer;
+  border-radius: var(--radius-md);
+  transition: border-color var(--transition-smooth), background-color var(--transition-smooth), transform var(--transition-fast);
+}
+
+#drop-zone:hover {
+  border-color: var(--accent);
+  background: rgba(138, 196, 63, 0.05);
+  transform: scale(1.005);
+}
+
+#drop-zone:active {
+  transform: scale(0.995);
+}
+
+/* 3. Form Inputs & Selectors (Apple HIG Cleanliness) */
+input,
+select {
+  width: 100%;
+  border: 1px solid var(--line);
+  background: var(--panel);
+  color: var(--ink);
+  padding: 10px 14px;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: var(--font-weight-medium);
+  border-radius: var(--radius-sm) !important; /* 8px rounding */
+  outline: none;
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast), background-color var(--transition-fast);
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%2386868b'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2.5' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-size: 12px;
+  padding-right: 32px;
+}
+
+input {
+  background-image: none;
+  padding-right: 14px;
+}
+
+input:focus,
+select:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(138, 196, 63, 0.15);
+  background-color: var(--panel);
+}
+
+/* 4. Buttons (Micro-interactions & Spring Transitions) */
+button {
+  border: 1px solid var(--line);
+  background: var(--panel);
+  color: var(--ink);
+  padding: 9px 16px;
+  border-radius: var(--radius-sm) !important;
+  font-weight: var(--font-weight-bold);
+  font-size: 13px;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+button:hover {
+  border-color: var(--accent);
+  background: var(--soft);
+}
+
+button:active {
+  transform: scale(0.98);
+}
+
+.primary-action,
+#btn-export-zip {
+  background: var(--accent) !important;
+  color: #111111 !important;
+  border-color: var(--accent) !important;
+}
+
+.primary-action:hover,
+#btn-export-zip:hover {
+  background: #9bd74c !important; /* Brighter version of lime accent */
+  box-shadow: 0 4px 12px rgba(138, 196, 63, 0.25);
+}
+
+.secondary-action {
+  background: var(--ink) !important;
+  color: var(--panel) !important;
+  border-color: var(--ink) !important;
+}
+
+.secondary-action:hover {
+  background: #2c2c2e !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* 5. File Library Items */
+#file-list {
+  border: 1px solid var(--line);
+  min-height: 160px;
+  max-height: 300px;
+  overflow-y: auto;
+  background: var(--panel);
+  border-radius: var(--radius-md);
+  padding: var(--spacing-4);
+}
+
+#file-list > div {
+  border: 1px solid transparent;
+  border-bottom: 1px solid var(--line);
+  padding: 12px 14px;
+  color: var(--ink);
+  transition: all var(--transition-fast);
+  border-radius: var(--radius-sm);
+  margin-bottom: 2px;
+}
+
+#file-list > div:last-child {
+  border-bottom-color: transparent;
+}
+
+#file-list > div:hover {
+  background-color: var(--soft);
+}
+
+/* 6. Tabs Controls */
+.tab-button {
+  border: 1px solid var(--line);
+  background: transparent;
+  color: var(--muted);
+  padding: 11px 18px;
+  font-weight: var(--font-weight-semibold);
+  border-radius: var(--radius-md) !important;
+  transition: all var(--transition-fast);
+  margin-right: 4px;
+}
+
+.tab-button:hover {
+  color: var(--ink);
+  background-color: var(--soft);
+  border-color: var(--line);
+}
+
+.tab-button.is-active {
+  background: var(--ink);
+  color: #ffffff;
+  border-color: var(--ink);
+}
+
+.tab-button.is-active:hover {
+  background: #2c2c2e;
+  color: #ffffff;
+}
+
+/* 7. Badges and Chips */
+.badge-count {
+  background: var(--error);
+  color: #ffffff;
+  padding: 2px 8px;
+  margin-left: 6px;
+  border-radius: var(--radius-full) !important;
+  font-size: 11px;
+  font-weight: var(--font-weight-bold);
+}
+
+.mini-chip {
+  font-size: 11px;
+  padding: var(--spacing-4) var(--spacing-8);
+  background: var(--soft);
+  border-radius: var(--radius-full) !important;
+  font-weight: var(--font-weight-medium);
+  border: 1px solid var(--line);
+}
+
+/* 8. Toast Feedback */
+#toast {
+  position: fixed;
+  right: var(--spacing-24);
+  bottom: var(--spacing-24);
+  background: var(--ink);
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 14px 20px;
+  z-index: 50;
+  border-radius: var(--radius-md) !important;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
+  font-size: 13px;
+  font-weight: var(--font-weight-medium);
+  transition: opacity var(--transition-normal), transform var(--transition-normal);
+}
+
+.opacity-0 {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.opacity-100 {
+  opacity: 1;
+}
+
+.translate-y-20 {
+  transform: translateY(20px);
+}
+
+.translate-y-0 {
+  transform: translateY(0);
+}
+
+/* Section Header Styling */
+.section-heading {
+  border-bottom: 1px solid var(--line);
+  margin-bottom: var(--spacing-24);
+  padding-bottom: var(--spacing-12);
+}
+
+.section-heading p,
+.scope-note {
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.6;
+}

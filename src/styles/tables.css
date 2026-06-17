@@ -1,0 +1,135 @@
+/* acofusion-comparison-pro - Tables Stylesheet */
+/* Optimized typography hierarchy for technical data parameters */
+
+.overflow-x-auto,
+#tab-single .overflow-x-auto,
+#tab-compare .overflow-x-auto {
+  overflow-x: auto !important;
+  -webkit-overflow-scrolling: touch;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--line);
+  background: var(--panel);
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 960px;
+  table-layout: auto;
+  font-size: 13px;
+}
+
+#comparison-matrix-body,
+#cone-table-body {
+  min-width: 960px;
+}
+
+thead tr {
+  background: var(--header);
+  color: #ffffff;
+}
+
+thead th {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  font-weight: var(--font-weight-semibold);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding: 14px 12px;
+  text-align: left;
+}
+
+th, td {
+  border-bottom: 1px solid var(--line);
+  padding: 12px 14px;
+  vertical-align: middle;
+  min-height: 48px;
+  height: 48px;
+  line-height: 1.4;
+  white-space: nowrap;
+}
+
+tbody tr {
+  transition: background-color var(--transition-fast);
+}
+
+tbody tr:hover {
+  background-color: var(--soft);
+}
+
+/* Alignments */
+td[data-col="watts"],
+td[data-col="flux"],
+td[data-col="eff"],
+td[data-col="cbcp"],
+td[data-col="ba"],
+th[data-col="watts"],
+th[data-col="flux"],
+th[data-col="eff"],
+th[data-col="cbcp"],
+th[data-col="ba"],
+#cone-table-body td:not(:first-child) {
+  text-align: right;
+}
+
+td[data-col="file"],
+td[data-col="use"] {
+  white-space: normal;
+  min-width: 180px;
+}
+
+/* --- Premium Optical Parameter Highlight & Font weights --- */
+/* Numbers use monospaced variant for vertical alignment stability */
+.tech-val,
+td[data-col="watts"],
+td[data-col="flux"],
+td[data-col="eff"],
+td[data-col="cbcp"],
+td[data-col="ba"] {
+  font-family: 'Inter', monospace;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Core Technical Data Font Weights */
+td[data-col="watts"] {
+  font-weight: var(--font-weight-semibold); /* 600 */
+  color: var(--ink);
+}
+
+td[data-col="flux"] {
+  font-weight: var(--font-weight-bold); /* 700 */
+  color: var(--ink);
+}
+
+td[data-col="eff"] {
+  font-weight: var(--font-weight-bold); /* 700 */
+  color: var(--brand-lime); /* Standout Efficacy */
+}
+
+td[data-col="cbcp"] {
+  font-weight: var(--font-weight-semibold); /* 600 */
+  color: var(--ink);
+}
+
+td[data-col="ba"] {
+  font-weight: var(--font-weight-bold); /* 700 */
+  color: var(--ink);
+}
+
+/* Table header column specificity */
+th[data-col="eff"] {
+  color: var(--brand-lime);
+}
+
+/* Cone calculation table specific highlight */
+#cone-table-body tr td:nth-child(2) {
+  font-weight: var(--font-weight-bold); /* Highlight central illuminance E0 */
+  color: var(--ink);
+}
+
+#cone-table-body tr td:nth-child(3) {
+  font-weight: var(--font-weight-semibold); /* Highlight maximum illuminance Emax */
+  color: var(--ink);
+}
